@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - DynaDuck</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <img src="logo.png" class="logo" onclick="window.location.href='index.html'" />
+    <nav>
+      <a href="catalog.html">Catalog</a>
+      <a href="ideas.html">Ideas</a>
+      <a href="create.html">Create</a>
+      <a href="dynamites.html">Dynamites</a>
+    </nav>
+  </div>
+
+  <div class="search-container">
+    <input type="text" class="search-bar" placeholder="Search...">
+  </div>
+
+  <div id="authButtons">
+    <button class="green-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+    <button class="green-btn" onclick="window.location.href='login.html'">Log In</button>
+  </div>
+</header>
+
+
+
+  <main id="adminPanel">
+    <h1>Admin Panel</h1>
+    <div id="adminContent"></div>
+  </main>
+
+  <script type="module">
+    import { auth, onAuthStateChanged } from "./firebase.js";
+
+    const adminEmails = ["Admin@dynaduck.com", "DinoSky@dynaduck.com", "Sheldesky@dynaduck.com"];
+    const adminContent = document.getElementById("adminContent");
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        adminContent.textContent = "You must be logged in as an admin.";
+        return;
+      }
+      if (!adminEmails.includes(user.email)) {
+        adminContent.textContent = "Access denied.";
+        return;
+      }
+      adminContent.innerHTML = `
+        <input type="text" placeholder="Search user...">
+        <button>Ban</button>
+        <button>Suspend</button>
+        <button>Kick Device</button>
+        <button>Give Dynamites</button>
+        <p>(Functions not implemented yet)</p>
+      `;
+    });
+  </script>
+</body>
+</html>

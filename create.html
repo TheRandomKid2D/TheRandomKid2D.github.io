@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create - DynaDuck</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <img src="logo.png" class="logo" onclick="window.location.href='index.html'" />
+    <nav>
+      <a href="catalog.html">Catalog</a>
+      <a href="ideas.html">Ideas</a>
+      <a href="create.html">Create</a>
+      <a href="dynamites.html">Dynamites</a>
+    </nav>
+  </div>
+
+  <div class="search-container">
+    <input type="text" class="search-bar" placeholder="Search...">
+  </div>
+
+  <div id="authButtons">
+    <button class="green-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+    <button class="green-btn" onclick="window.location.href='login.html'">Log In</button>
+  </div>
+</header>
+
+
+  <main>
+    <h1>Create</h1>
+    <p>Download Duck Build today and create a game on DynaDuck :D Happy Work</p>
+    <button class="green-btn" style="margin-top:20px; font-size:1.1em; padding:12px 30px;">Download</button>
+  </main>
+
+  <script type="module">
+    import { auth, onAuthStateChanged, signOut } from "./firebase.js";
+    const authButtons = document.getElementById("authButtons");
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const username = user.displayName || user.email.split("@")[0];
+        authButtons.innerHTML = `
+          <span>${username}</span>
+          <button id="logoutBtn" class="green-btn">Log Out</button>
+        `;
+        document.getElementById("logoutBtn").addEventListener("click", () => signOut(auth));
+      }
+    });
+  </script>
+</body>
+</html>
